@@ -8,8 +8,7 @@
                 "-fdiagnostics-color=always",
                 "-g",
                 "${workspaceFolder}\\main.cpp",
-                "${workspaceFolder}\\Player.cpp",
-                "${workspaceFolder}\\Grid.cpp",
+                "${workspaceFolder}\\Game.cpp",
                 "-o",
                 "${workspaceFolder}\\main.exe"
             ],

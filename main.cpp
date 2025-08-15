@@ -1,12 +1,11 @@
 #include <iostream>
 #include <string>
-#include "Grid.h"
-#include "Player.h"
+#include "Game.h"
 using namespace std;
 
 int main () {
-    Player* Player1 = new Player();
-    delete Player1;
+    auto p = new Player();
+    auto g = new Grid();
     cout<<"Hello World!"<<endl;
     return 0;
 }

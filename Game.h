@@ -1,9 +1,11 @@
-#ifndef PLAYER_H
-#define PLAYER_H
+#ifndef GAME_H
+#define GAME_H
 
+#include <algorithm>
+#include <iostream>
 #include <utility>
+#include <string>
 #include <array>
-#include "Grid.h"
 using namespace std;
 
 class Player {
@@ -22,13 +24,20 @@ class Player {
         void setDestroyer(int x1, int y1, int x2, int y2); //set destroyer array elements, (x1,y1) are start points and (x2,y2) are endpoints, can only go vertical or horizontal
         void setSub(int x1, int y1, int x2, int y2); //set sub array elements, (x1,y1) are start points and (x2,y2) are endpoints, can only go vertical or horizontal
         void setRhib(int x1, int y1); //set rhib array elements, (x1,y1) are start points and (x2,y2) are endpoints, can only go vertical or horizontal
-        bool isLegal(int x, int y); //HELPER: boundary checker for x and y coords 
-        //getters: returns ships
-        auto getCarrier();
-        auto getBattleship();
-        auto getDestroyer();
-        auto getSub();
-        auto getRhib();
+        bool isLegal(int x, int y); //HELPER: boundary checker for x and y coords
+
 };
 
-#endif //PLAYER_H
+class Grid {
+    public:
+        Grid(); //constructor
+        //grid guide: 0: untouched, 1:player's ships, 2:miss, 3:hit
+        int selfGrid[10][10]; //self grid where it shows your own ship locations
+        int tacGrid[10][10]; //tac grid where it shows hits and misses and opponent ships
+
+    private: 
+        void showSelf(); //shows player ships and hits and targets performed by opponent (prints player 10x10 array)
+        void showTac(); //shows player hits and targets on opponent (prints target 10x10 array)
+        string fire(int x, int y, Player P); //fires on int,int coordinates (use isHit() bool to prevent repeat fire attempts) used to update grid     
+};
+#endif //GAME_H

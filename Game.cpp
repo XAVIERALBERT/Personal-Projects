@@ -1,11 +1,13 @@
 #include <algorithm>
+#include <string>
 #include <iostream>
 #include <string>
 #include <utility>
 #include <array>
-#include "Player.h"
+#include "Game.h"
 using namespace std;
 
+//Player class
 //constructor
 Player::Player () {
     for (int i = 0; i < 5; i++) {
@@ -303,23 +305,102 @@ bool Player::isLegal(int x, int y) {
     return false;
 }
 
-//getter implementations
-auto Player::getCarrier() {
-    return this->carrier;
+//Grid class
+//constructor
+Grid::Grid () {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            selfGrid[i][j] = 0;
+        }
+    }
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            tacGrid[i][j] = 0;
+        }
+    }
 }
 
-auto Player::getBattleship() {
-    return this->battleship;
+//function implementations
+void Grid::showSelf() {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            cout << selfGrid[i][j] << " ";
+        }
+         cout << endl;
+    }
 }
 
-auto Player::getDestroyer() {
-    return this->destroyer;
+void Grid::showTac() {
+    for (int i = 0; i < 10; i++) {
+        for (int j = 0; j < 10; j++) {
+            cout << tacGrid[i][j] << " ";
+        }
+         cout << endl;
+    }
 }
 
-auto Player::getSub() { 
-    return this->sub;
-}
-
-auto Player::getRhib() {
-    return this->rhib;
+string Grid::fire(int x, int y, Player P) {
+    if (!(0 <= x && x < 10) || !(0 <= y && y < 10)) {
+        return "Please enter valid target coordinates.";
+    }
+    //checks carriers coords
+    for (auto& coord : P.carrier) {
+        if (coord.first == -1 && coord.second ==-1) {
+            return "REPEAT COORDINATES, PLEASE SELECT NEW COORDINATES"; 
+        }
+        if (coord.first == x && coord.second == y) {
+            tacGrid[x][y] = 2; //hit
+            coord.first = -1;
+            coord.second = -1;
+            return "HIT";
+        }
+    }
+    //checks battleship coords
+    for (auto& coord : P.battleship) {
+        if (coord.first == -1 && coord.second ==-1) {
+            return "REPEAT COORDINATES, PLEASE SELECT NEW COORDINATES"; 
+        }
+        if (coord.first == x && coord.second == y) {
+            tacGrid[x][y] = 2; //hit
+            coord.first = -1;
+            coord.second = -1;
+            return "HIT";
+        }
+    }
+    //checks destroyers coords
+    for (auto& coord : P.destroyer) {
+        if (coord.first == -1 && coord.second ==-1) {
+            return "REPEAT COORDINATES, PLEASE SELECT NEW COORDINATES"; 
+        }
+        if (coord.first == x && coord.second == y) {
+            tacGrid[x][y] = 2; //hit
+            coord.first = -1;
+            coord.second = -1;
+            return "HIT";
+        }
+    }
+    //checks subs coords
+    for (auto& coord : P.sub) {
+        if (coord.first == -1 && coord.second ==-1) {
+            return "REPEAT COORDINATES, PLEASE SELECT NEW COORDINATES"; 
+        }
+        if (coord.first == x && coord.second == y) {
+            tacGrid[x][y] = 2; //hit
+            coord.first = -1;
+            coord.second = -1;
+            return "HIT";
+        }
+    }
+    //checks rhib coord
+    if (P.rhib[0].first == -1 && P.rhib[0].second ==-1) {
+            return "REPEAT COORDINATES, PLEASE SELECT NEW COORDINATES"; 
+    }
+    if (P.rhib[0].first == x && P.rhib[0].second == y) {
+            tacGrid[x][y] = 2; //hit
+            P.rhib[0].first = -1;
+            P.rhib[0].second = -1;
+            return "HIT";
+    }
+    //reaches last return (no hits)    
+    return "MISS";
 }
